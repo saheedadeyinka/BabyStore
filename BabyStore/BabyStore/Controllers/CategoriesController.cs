@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using BabyStore.DAL;
+using BabyStore.Models;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using BabyStore.DAL;
-using BabyStore.Models;
 
 namespace BabyStore.Controllers
 {
@@ -18,7 +15,7 @@ namespace BabyStore.Controllers
         // GET: Categories
         public ActionResult Index()
         {
-            return View(db.Categories.ToList());
+            return View(db.Categories.OrderBy(c => c.Name).ToList());
         }
 
         // GET: Categories/Details/5

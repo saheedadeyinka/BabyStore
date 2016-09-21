@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using BabyStore.DAL;
+using BabyStore.Models;
+using System;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using BabyStore.DAL;
-using BabyStore.Models;
 
 namespace BabyStore.Controllers
 {
@@ -16,12 +14,19 @@ namespace BabyStore.Controllers
         private StoreContext db = new StoreContext();
 
         // GET: Products
-        public ActionResult Index(string category)
+        public ActionResult Index(string category, string search)
         {
             var products = db.Products.Include(p => p.Category);
 
             if (!String.IsNullOrEmpty(category))
                 products = products.Where(p => p.Category.Name == category);
+
+            if (!String.IsNullOrEmpty(search))
+            {
+                products = products.Where(p => p.Name.Contains(search) ||
+                                               p.Description.Contains(search) ||
+                                               p.Category.Name.Contains(search));
+            }
 
             return View(products.ToList());
         }

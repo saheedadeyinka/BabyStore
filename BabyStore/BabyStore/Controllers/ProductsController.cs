@@ -1,5 +1,6 @@
 ﻿using BabyStore.DAL;
 using BabyStore.Models;
+using BabyStore.ViewModels;
 using System;
 using System.Data;
 using System.Data.Entity;
@@ -14,35 +15,86 @@ namespace BabyStore.Controllers
         private StoreContext db = new StoreContext();
 
         // GET: Products
+        //public ActionResult Index(string category, string search)
+        //{
+        //    var products = db.Products.Include(p => p.Category);
+
+        //    if (!String.IsNullOrEmpty(category))
+        //        products = products.Where(p => p.Category.Name == category);
+
+        //    if (!String.IsNullOrEmpty(search))
+        //    {
+        //        products = products.Where(p => p.Name.Contains(search) ||
+        //                                       p.Description.Contains(search) ||
+        //                                       p.Category.Name.Contains(search));
+        //        ViewBag.Search = search;
+        //    }
+
+        //    var categories = products
+        //        .OrderBy(p => p.Category.Name)
+        //        .Select(p => p.Category.Name)
+        //        .Distinct();
+
+        //    if (!String.IsNullOrEmpty(category))
+        //    {
+        //        products = products.Where(p => p.Category.Name == category);
+        //    }
+
+        //    ViewBag.Category = new SelectList(categories);
+
+        //    return View(products.ToList());
+        //}
+
         public ActionResult Index(string category, string search)
         {
+            //Instantiate a new viewModel
+            ProductIndexViewModel viewModel = new ProductIndexViewModel();
+
+            //select the product
             var products = db.Products.Include(p => p.Category);
 
-            if (!String.IsNullOrEmpty(category))
-                products = products.Where(p => p.Category.Name == category);
-
+            //perform the search and save the search string a the viewModel
             if (!String.IsNullOrEmpty(search))
             {
                 products = products.Where(p => p.Name.Contains(search) ||
-                                               p.Description.Contains(search) ||
-                                               p.Category.Name.Contains(search));
-                ViewBag.Search = search;
+                                                p.Description.Contains(search) ||
+                                                p.Category.Name.Contains(search));
+
+                viewModel.Search = search;
             }
 
-            var categories = products
-                .OrderBy(p => p.Category.Name)
-                .Select(p => p.Category.Name)
-                .Distinct();
+            //Group search results into categories and count how many items in each category
+            viewModel.CategoryWithCounts = from matchingProducts in products
+                                           where
+                                               matchingProducts.CategoryId != null
+                                           group matchingProducts by
+                                               matchingProducts.Category.Name
+                                            into
+                                                categoryGroup
+                                           select new CategoryWithCount()
+                                           {
+                                               CategoryName = categoryGroup.Key,
+                                               ProductCount = categoryGroup.Count()
+                                           };
+            //viewModel.CategoryWithCounts =
+            //    products.Where(matchingProducts => matchingProducts.CategoryId != null)
+            //        .GroupBy(matchingProducts => matchingProducts.Category.Name)
+            //        .Select(categoryGroup => new CategoryWithCount()
+            //        {
+            //            CategoryName = categoryGroup.Key,
+            //            ProductCount = categoryGroup.Count()
+            //        });
 
             if (!String.IsNullOrEmpty(category))
             {
                 products = products.Where(p => p.Category.Name == category);
             }
 
-            ViewBag.Category = new SelectList(categories);
+            viewModel.Products = products;
 
-            return View(products.ToList());
+            return View(viewModel);
         }
+
 
         // GET: Products/Details/5
         public ActionResult Details(int? id)

@@ -12,6 +12,9 @@ namespace BabyStore.ViewModels
         public IEnumerable<CategoryWithCount> CategoryWithCounts { get; set; }
         public string Category { get; set; }
 
+        public string SortBy { get; set; }
+        public Dictionary<string, string> Sorts { get; set; }
+
         public IEnumerable<SelectListItem> CategoryFilterItems
         {
             get

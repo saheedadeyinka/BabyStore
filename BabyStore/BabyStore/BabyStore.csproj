@@ -224,12 +224,17 @@
     <Compile Include="Migrations\201609240045250_ProductValidation.Designer.cs">
       <DependentUpon>201609240045250_ProductValidation.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201609291030045_ProductImages.cs" />
+    <Compile Include="Migrations\201609291030045_ProductImages.Designer.cs">
+      <DependentUpon>201609291030045_ProductImages.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\ProductImage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\ProductIndexViewModel.cs" />
@@ -326,6 +331,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201609240045250_ProductValidation.resx">
       <DependentUpon>201609240045250_ProductValidation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609291030045_ProductImages.resx">
+      <DependentUpon>201609291030045_ProductImages.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

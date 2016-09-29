@@ -1,6 +1,7 @@
 ﻿using BabyStore.DAL;
 using BabyStore.Models;
 using BabyStore.ViewModels;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -46,7 +47,7 @@ namespace BabyStore.Controllers
         //    return View(products.ToList());
         //}
 
-        public ActionResult Index(string category, string search, string sortBy)
+        public ActionResult Index(string category, string search, string sortBy, int? page)
         {
             //Instantiate a new viewModel
             ProductIndexViewModel viewModel = new ProductIndexViewModel();
@@ -89,6 +90,7 @@ namespace BabyStore.Controllers
             if (!String.IsNullOrEmpty(category))
             {
                 products = products.Where(p => p.Category.Name == category);
+                viewModel.Category = category;
             }
 
             //sort the result by price
@@ -101,11 +103,17 @@ namespace BabyStore.Controllers
                     products = products.OrderByDescending(p => p.Price);
                     break;
                 default:
+                    products = products.OrderBy(p => p.Name);
                     break;
 
             }
 
-            viewModel.Products = products;
+            //viewModel.Products = products;
+            const int PagedItems = 3;
+            int currentPage = (page ?? 1);
+            viewModel.Products = products.ToPagedList(currentPage, PagedItems);
+            viewModel.SortBy = sortBy;
+
             viewModel.Sorts = new Dictionary<string, string>
             {
                 {"Price low to high", "price_lowest"},

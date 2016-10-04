@@ -109,9 +109,9 @@ namespace BabyStore.Controllers
             }
 
             //viewModel.Products = products;
-            const int PagedItems = 3;
+
             int currentPage = (page ?? 1);
-            viewModel.Products = products.ToPagedList(currentPage, PagedItems);
+            viewModel.Products = products.ToPagedList(currentPage, Constants.PageItems);
             viewModel.SortBy = sortBy;
 
             viewModel.Sorts = new Dictionary<string, string>

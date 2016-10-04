@@ -230,6 +230,10 @@
     <Compile Include="Migrations\201609291030045_ProductImages.Designer.cs">
       <DependentUpon>201609291030045_ProductImages.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201610040018055_UniqueFileName.cs" />
+    <Compile Include="Migrations\201610040018055_UniqueFileName.Designer.cs">
+      <DependentUpon>201610040018055_UniqueFileName.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Category.cs" />
@@ -342,6 +346,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201609291030045_ProductImages.resx">
       <DependentUpon>201609291030045_ProductImages.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610040018055_UniqueFileName.resx">
+      <DependentUpon>201610040018055_UniqueFileName.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

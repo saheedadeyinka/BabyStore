@@ -142,8 +142,18 @@ namespace BabyStore.Controllers
         // GET: Products/Create
         public ActionResult Create()
         {
-            ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name");
-            return View();
+            ProductViewModel viewModel = new ProductViewModel
+            {
+                CategoryList = new SelectList(db.Categories, "Id", "Name"),
+                ImageLists = new List<SelectList>()
+            };
+
+            for (int i = 0; i < Constants.NumberOfProductImages; i++)
+            {
+                viewModel.ImageLists.Add(new SelectList(db.ProductImages, "Id", "FileName"));
+            }
+
+            return View(viewModel);
         }
 
         // POST: Products/Create

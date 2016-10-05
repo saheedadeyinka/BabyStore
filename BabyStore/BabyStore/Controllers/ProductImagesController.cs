@@ -4,7 +4,6 @@ using System;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.SqlClient;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -110,7 +109,7 @@ namespace BabyStore.Controllers
         {
             bool allValid = true;
             string inValidFiles = "";
-            db.Database.Log = sql => Trace.WriteLine(sql);
+            //db.Database.Log = sql => Trace.WriteLine(sql);
 
             //check that the user has entered a file
             if (files[0] != null)

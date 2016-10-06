@@ -1,4 +1,4 @@
-﻿@model BabyStore.Models.Product
+﻿@model BabyStore.ViewModels.ProductViewModel
 
 @{
     ViewBag.Title = "Create";
@@ -8,10 +8,10 @@
 <h2>Create</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Product</h4>
         <hr />
@@ -41,13 +41,23 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.CategoryId, "CategoryId", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.CategoryId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("CategoryId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownListFor(vm => vm.CategoryId, Model.CategoryList, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
             </div>
         </div>
-
+        @for (int i = 0; i < Model.ImageLists.Count; i++)
+        {
+            <div class="form-group">
+                <label class="control-label col-md-2">Product Image @(i + i) :</label>
+                <div class="col-md-10">
+                    @Html.DropDownListFor(vm => vm.ProductImages, Model.ImageLists[i], "Choose Image",
+                   htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.ImageLists, "", new {@class="text-danger"})
+            </div>
+        </div>
+        }
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Create" class="btn btn-default" />

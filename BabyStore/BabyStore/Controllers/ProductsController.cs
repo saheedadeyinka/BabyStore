@@ -161,8 +161,28 @@ namespace BabyStore.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Description,Price,CategoryId")] Product product)
+        public ActionResult Create(ProductViewModel viewModel)
         {
+            Product product = new Product
+            {
+                Name = viewModel.Name,
+                Description = viewModel.Description,
+                Price = viewModel.Price,
+                CategoryId = viewModel.CategoryId,
+                ProductImageMappings = new List<ProductImageMapping>()
+            };
+
+            //get a list of selected images without any blanks
+            string[] productImages = viewModel.ProductImages.Where(pi => !String.IsNullOrEmpty(pi)).ToArray();
+            for (int i = 0; i < productImages.Length; i++)
+            {
+                product.ProductImageMappings.Add(new ProductImageMapping
+                {
+                    ProductImage = db.ProductImages.Find(int.Parse(productImages[i])),
+                    ImageNumber = i
+                });
+            }
+
             if (ModelState.IsValid)
             {
                 db.Products.Add(product);
@@ -170,9 +190,26 @@ namespace BabyStore.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name", product.CategoryId);
-            return View(product);
+            viewModel.CategoryList = new SelectList(db.Categories, "Id", "Name", product.CategoryId);
+            viewModel.ImageLists = new List<SelectList>();
+            for (int i = 0; i < Constants.NumberOfProductImages; i++)
+            {
+                viewModel.ImageLists.Add(new SelectList(db.ProductImages, "Id", "FileName", viewModel.ProductImages[i]));
+            }
+            return View(viewModel);
         }
+        //public ActionResult Create([Bind(Include = "Id,Name,Description,Price,CategoryId")] Product product)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        db.Products.Add(product);
+        //        db.SaveChanges();
+        //        return RedirectToAction("Index");
+        //    }
+
+        //    ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name", product.CategoryId);
+        //    return View(product);
+        //}
 
         // GET: Products/Edit/5
         public ActionResult Edit(int? id)

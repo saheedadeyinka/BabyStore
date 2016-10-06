@@ -252,16 +252,66 @@ namespace BabyStore.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Description,Price,CategoryId")] Product product)
+        public ActionResult Edit(ProductViewModel viewModel)
         {
-            if (ModelState.IsValid)
+            var productToUpdate =
+                db.Products.Include(p => p.ProductImageMappings).Single(p => p.Id == viewModel.Id);
+            if (TryUpdateModel(productToUpdate, "", new string[] { "Name", "Description", "Price", "CategoryId" }))
             {
-                db.Entry(product).State = EntityState.Modified;
+                if (productToUpdate.ProductImageMappings == null)
+                {
+                    productToUpdate.ProductImageMappings = new List<ProductImageMapping>();
+                }
+                //get a list of selected images without any blanks
+                string[] productImages = viewModel.ProductImages.Where(pi => !String.IsNullOrEmpty(pi)).ToArray();
+                for (int i = 0; i < productImages.Length; i++)
+                {
+                    //get the image currently stored
+                    var imageMappingToEdit =
+                        productToUpdate.ProductImageMappings.FirstOrDefault(pim => pim.ImageNumber == i);
+                    //find the new image
+                    var image = db.ProductImages.Find(int.Parse(productImages[i]));
+                    //if there is nothing stored then we need to add a new mapping
+                    if (imageMappingToEdit == null)
+                    {
+                        //add image to the imageMappings
+                        productToUpdate.ProductImageMappings.Add(new ProductImageMapping
+                        {
+                            ImageNumber = i,
+                            ProductImage = image,
+                            ProductImageId = image.Id
+                        });
+                    }
+                    //else it is not a new file so edit the current mapping
+                    else
+                    {
+                        //if they are not the same
+                        if (imageMappingToEdit.ProductImageId != int.Parse(productImages[i]))
+                        {
+                            //assign image property of the image mapping
+                            imageMappingToEdit.ProductImage = image;
+                        }
+                    }
+                }
+
+                //delete any other imagemappings that the user did not include in their selections for the product
+                for (int i = productImages.Length; i < Constants.NumberOfProductImages; i++)
+                {
+                    var imageMappingToEdit =
+                        productToUpdate.ProductImageMappings.FirstOrDefault(pim => pim.ImageNumber == i);
+                    //if there is something stored in the mapping
+                    if (imageMappingToEdit != null)
+                    {
+                        //delete the record from the mapping table directly
+                        //just calling productToUpdate.ProductImageMappings.Remove(imageMappingToEdit)
+                        //results in a FK error
+                        db.ProductImageMappings.Remove(imageMappingToEdit);
+                    }
+                }
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name", product.CategoryId);
-            return View(product);
+            return View(viewModel);
         }
 
         // GET: Products/Delete/5

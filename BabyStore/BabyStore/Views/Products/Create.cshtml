@@ -50,7 +50,7 @@
         @for (int i = 0; i < Model.ImageLists.Count; i++)
         {
             <div class="form-group">
-                <label class="control-label col-md-2">Product Image @(i + i) :</label>
+                <label class="control-label col-md-2">Product Image @(i + 1) :</label>
                 <div class="col-md-10">
                     @Html.DropDownListFor(vm => vm.ProductImages, Model.ImageLists[i], "Choose Image",
                    htmlAttributes: new { @class = "form-control" })

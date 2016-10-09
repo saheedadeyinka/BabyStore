@@ -86,7 +86,7 @@ namespace BabyStore.Migrations
                 },
                 new Product
                 {
-                    Name = "Powered Baby Milk",
+                    Name = "Powdered Baby Milk",
                     Description = "Nutritional and Tasty",
                     Price = 9.99M,
                     CategoryId = categories.Single(c => c.Name == "Feeding").Id
@@ -156,7 +156,7 @@ namespace BabyStore.Migrations
                 },
                 new Product
                 {
-                    Name = "Love Crib Bale",
+                    Name = "Loved Crib Bale",
                     Description = "Contains sheet, duvet and bumper",
                     Price = 35.99M,
                     CategoryId = categories.Single(c => c.Name == "Sleeping").Id
@@ -165,7 +165,260 @@ namespace BabyStore.Migrations
 
             products.ForEach(c => context.Products.AddOrUpdate(p => p.Name, c));
             context.SaveChanges();
+
+            var images = new List<ProductImage>
+            {
+                new ProductImage {FileName = "SleepSuit1.JPG"},
+                new ProductImage {FileName = "SleepSuit2.JPG"},
+                new ProductImage {FileName = "Vest1.JPG"},
+                new ProductImage {FileName = "Vest2.JPG"},
+                new ProductImage {FileName = "Lion1.JPG"},
+                new ProductImage {FileName = "Rabbit1.JPG"},
+                new ProductImage {FileName = "Bottles1.JPG"},
+                new ProductImage {FileName = "Bottles2.JPG"},
+                new ProductImage {FileName = "Bottles3.JPG"},
+                new ProductImage {FileName = "Bibs1.JPG"},
+                new ProductImage {FileName = "Bibs2.JPG"},
+                new ProductImage {FileName = "Milk1.JPG"},
+                new ProductImage {FileName = "Nappies1.JPG"},
+                new ProductImage {FileName = "Nappies2.JPG"},
+                new ProductImage {FileName = "Nappies3.JPG"},
+                new ProductImage {FileName = "ColicMedicine1.JPG"},
+                new ProductImage {FileName = "Reflux1.JPG"},
+                new ProductImage {FileName = "Pram1.JPG"},
+                new ProductImage {FileName = "Pram2.JPG"},
+                new ProductImage {FileName = "Pram3.JPG"},
+                new ProductImage {FileName = "CarSeat1.JPG"},
+                new ProductImage {FileName = "CarSeat2.JPG"},
+                new ProductImage {FileName = "Moses1.JPG"},
+                new ProductImage {FileName = "Moses2.JPG"},
+                new ProductImage {FileName = "Crib1.JPG"},
+                new ProductImage {FileName = "Crib2.JPG"},
+                new ProductImage {FileName = "Bed1.JPG"},
+                new ProductImage {FileName = "Bed2.JPG"},
+                new ProductImage {FileName = "CircusBale1.JPG"},
+                new ProductImage {FileName = "CircusBale2.JPG"},
+                new ProductImage {FileName = "CircusBale3.JPG"},
+                new ProductImage {FileName = "LovedBale1.JPG"},
+            };
+
+            images.ForEach(c => context.ProductImages.AddOrUpdate(p => p.FileName, c));
+            context.SaveChanges();
+
+            /*var imageMappings = new List<ProductImageMapping>
+            {
+               
+              
+                
+            };
+
+            imageMappings.ForEach(c => context.ProductImageMappings.AddOrUpdate(im => im.ProductImageId, c));
+            context.SaveChanges();*/
+            var imageMappings = new List<ProductImageMapping>
+            {
+                new ProductImageMapping
+                {
+                    ProductImageId = images.Single(i => i.FileName == "SleepSuit1.JPG").Id,
+                    ProductId = products.Single(c => c.Name == "Sleep Suit").Id,
+                    ImageNumber = 0
+                },
+                new ProductImageMapping
+                {
+                    ProductImageId = images.Single(i => i.FileName == "SleepSuit2.JPG").Id,
+                    ProductId = products.Single(c => c.Name == "Sleep Suit").Id,
+                    ImageNumber = 1
+                },
+                new ProductImageMapping
+                {
+                    ProductImageId = images.Single(i => i.FileName == "Vest1.JPG").Id,
+                    ProductId = products.Single(c => c.Name == "Vest").Id,
+                    ImageNumber = 0
+                },
+                new ProductImageMapping
+                {
+                    ProductImageId = images.Single(i => i.FileName == "Vest2.JPG").Id,
+                    ProductId = products.Single(c => c.Name == "Vest").Id,
+                    ImageNumber = 1
+                },
+                new ProductImageMapping
+                {
+                    ProductImageId = images.Single(i => i.FileName == "Lion1.JPG").Id,
+                    ProductId = products.Single(c => c.Name == "Orange and Yellow Lion").Id,
+                    ImageNumber = 0
+                },
+                new ProductImageMapping
+                {
+                    ProductImageId = images.Single(i => i.FileName == "Rabbit1.JPG").Id,
+                    ProductId = products.Single(c => c.Name == "Blue Rabbit").Id,
+                    ImageNumber = 0
+                },
+                new ProductImageMapping
+                {
+                    ProductImageId = images.Single(i => i.FileName == "Bottles1.JPG").Id,
+                    ProductId = products.Single(c => c.Name == "3 Pack of Bottles").Id,
+                    ImageNumber = 0
+                },
+                new ProductImageMapping
+                {
+                    ProductImageId = images.Single(i => i.FileName == "Bottles2.JPG").Id,
+                    ProductId = products.Single(c => c.Name == "3 Pack of Bottles").Id,
+                    ImageNumber = 1
+                },
+                new ProductImageMapping
+                {
+                    ProductImageId = images.Single(i => i.FileName == "Bottles3.JPG").Id,
+                    ProductId = products.Single(c => c.Name == "3 Pack of Bottles").Id,
+                    ImageNumber = 2
+                },
+                new ProductImageMapping
+                {
+                    ProductImageId = images.Single(i => i.FileName == "Bibs1.JPG").Id,
+                    ProductId = products.Single(c => c.Name == "3 Pack of Bibs").Id,
+                    ImageNumber = 0
+                },
+                new ProductImageMapping
+                {
+                    ProductImageId = images.Single(i => i.FileName == "Bibs2.JPG").Id,
+                    ProductId = products.Single(c => c.Name == "3 Pack of Bibs").Id,
+                    ImageNumber = 1
+                },
+                new ProductImageMapping
+                {
+                    ProductImageId = images.Single(i => i.FileName == "Milk1.JPG").Id,
+                    ProductId = products.Single(c => c.Name == "Powdered Baby Milk").Id,
+                    ImageNumber = 0
+                },
+                new ProductImageMapping
+                {
+                    ProductImageId = images.Single(i => i.FileName == "Nappies1.JPG").Id,
+                    ProductId = products.Single(c => c.Name == "Pack of 70 Disposable Nappies").Id,
+                    ImageNumber = 0
+                },
+                new ProductImageMapping
+                {
+                    ProductImageId = images.Single(i => i.FileName == "Nappies2.JPG").Id,
+                    ProductId = products.Single(c => c.Name == "Pack of 70 Disposable Nappies").Id,
+                    ImageNumber = 1
+                },
+                new ProductImageMapping
+                {
+                    ProductImageId = images.Single(i => i.FileName == "Nappies3.JPG").Id,
+                    ProductId = products.Single(c => c.Name == "Pack of 70 Disposable Nappies").Id,
+                    ImageNumber = 2
+                },
+                new ProductImageMapping
+                {
+                    ProductImageId = images.Single(i => i.FileName == "ColicMedicine1.JPG").Id,
+                    ProductId = products.Single(c => c.Name == "Colic Medicine").Id,
+                    ImageNumber = 0
+                },
+                new ProductImageMapping
+                {
+                    ProductImageId = images.Single(i => i.FileName == "Reflux1.JPG").Id,
+                    ProductId = products.Single(c => c.Name == "Reflux Medicine").Id,
+                    ImageNumber = 0
+                },
+
+                new ProductImageMapping
+                {
+                    ProductImageId = images.Single(i => i.FileName == "Pram1.JPG").Id,
+                    ProductId = products.Single(c => c.Name == "Black Pram and Pushchair System").Id,
+                    ImageNumber = 0
+                },
+                new ProductImageMapping
+                {
+                    ProductImageId = images.Single(i => i.FileName == "Pram2.JPG").Id,
+                    ProductId = products.Single(c => c.Name == "Black Pram and Pushchair System").Id,
+                    ImageNumber = 1
+                },
+
+                new ProductImageMapping
+                {
+                    ProductImageId = images.Single(i => i.FileName == "Pram3.JPG").Id,
+                    ProductId = products.Single(c => c.Name == "Black Pram and Pushchair System").Id,
+                    ImageNumber = 2
+                },
+                new ProductImageMapping
+                {
+                    ProductImageId = images.Single(i => i.FileName == "CarSeat1.JPG").Id,
+                    ProductId = products.Single(c => c.Name == "Car Seat").Id,
+                    ImageNumber = 0
+                },
+
+                new ProductImageMapping
+                {
+                    ProductImageId = images.Single(i => i.FileName == "CarSeat2.JPG").Id,
+                    ProductId = products.Single(c => c.Name == "Car Seat").Id,
+                    ImageNumber = 1
+                },
+                new ProductImageMapping
+                {
+                    ProductImageId = images.Single(i => i.FileName == "Moses1.JPG").Id,
+                    ProductId = products.Single(c => c.Name == "Moses Basket").Id,
+                    ImageNumber = 0
+                },
+
+                new ProductImageMapping
+                {
+                    ProductImageId = images.Single(i => i.FileName == "Moses2.JPG").Id,
+                    ProductId = products.Single(c => c.Name == "Moses Basket").Id,
+                    ImageNumber = 1
+                },
+                new ProductImageMapping
+                {
+                    ProductImageId = images.Single(i => i.FileName == "Crib1.JPG").Id,
+                    ProductId = products.Single(c => c.Name == "Crib").Id,
+                    ImageNumber = 0
+                },
+                
+                //new entry
+                new ProductImageMapping
+                {
+                    ProductImageId = images.Single(i => i.FileName == "Crib2.JPG").Id,
+                    ProductId = products.Single(c => c.Name == "Crib").Id,
+                    ImageNumber = 1
+                },
+                new ProductImageMapping
+                {
+                    ProductImageId = images.Single(i => i.FileName == "Bed1.JPG").Id,
+                    ProductId = products.Single(c => c.Name == "Cot Bed").Id,
+                    ImageNumber = 0
+                },
+                
+                new ProductImageMapping
+                {
+                    ProductImageId = images.Single(i => i.FileName == "Bed2.JPG").Id,
+                    ProductId = products.Single(c => c.Name == "Cot Bed").Id,
+                    ImageNumber = 1
+                },
+                new ProductImageMapping
+                {
+                    ProductImageId = images.Single(i => i.FileName == "CircusBale1.JPG").Id,
+                    ProductId = products.Single(c => c.Name == "Circus Crib Bale").Id,
+                    ImageNumber = 0
+                },
+                new ProductImageMapping
+                {
+                    ProductImageId = images.Single(i => i.FileName == "CircusBale2.JPG").Id,
+                    ProductId = products.Single(c => c.Name == "Circus Crib Bale").Id,
+                    ImageNumber = 1
+                },
+                new ProductImageMapping
+                {
+                    ProductImageId = images.Single(i => i.FileName == "CircusBale3.JPG").Id,
+                    ProductId = products.Single(c => c.Name == "Circus Crib Bale").Id,
+                    ImageNumber = 2
+                },
+                new ProductImageMapping
+                {
+                    ProductImageId = images.Single(i => i.FileName == "LovedBale1.JPG").Id,
+                    ProductId = products.Single(c => c.Name == "Loved Crib Bale").Id,
+                    ImageNumber = 0
+                },
+                
+            };
+            imageMappings.ForEach(c => context.ProductImageMappings.AddOrUpdate(im => im.ProductImageId, c));
+            context.SaveChanges();
         }
     }
 }
-

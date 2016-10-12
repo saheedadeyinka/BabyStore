@@ -423,6 +423,7 @@
     <Content Include="Views\Error\FileUploadLimitExceeded.cshtml" />
     <Content Include="Views\Shared\_ProductEditCreatePartial.cshtml" />
     <Content Include="Views\RolesAdmin\Index.cshtml" />
+    <Content Include="Views\RolesAdmin\Create.cshtml" />
     <None Include="Views\RolesAdmin\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>

@@ -2,6 +2,7 @@
 
 namespace BabyStore.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         // GET: Admin

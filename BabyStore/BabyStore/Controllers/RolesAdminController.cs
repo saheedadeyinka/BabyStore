@@ -79,6 +79,7 @@ namespace BabyStore.Controllers
 
         // POST: RolesAdmin/Create
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(RoleViewModel roleViewModel)
         {
             if (ModelState.IsValid)
@@ -97,25 +98,34 @@ namespace BabyStore.Controllers
         }
 
         // GET: RolesAdmin/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(string id)
         {
-            return View();
+            if (id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            var role = await RoleManager.FindByIdAsync(id);
+            if (role == null)
+            {
+                return HttpNotFound();
+            }
+            RoleViewModel roleModel = new RoleViewModel { Id = role.Id, Name = role.Name };
+
+            return View(roleModel);
         }
 
         // POST: RolesAdmin/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Edit(RoleViewModel roleModel)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add update logic here
-
+                var role = await RoleManager.FindByIdAsync(roleModel.Id);
+                role.Name = roleModel.Name;
+                await RoleManager.UpdateAsync(role);
                 return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
+            return View();
         }
 
         // GET: RolesAdmin/Delete/5

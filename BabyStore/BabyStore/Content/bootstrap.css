@@ -1243,7 +1243,8 @@ pre code {
 
 @media (min-width: 1200px) {
   .container {
-    max-width: 1170px;
+    /*max-width: 1170px;*/
+    max-width: 1400px;
   }
   .col-lg-1,
   .col-lg-2,
@@ -6814,3 +6815,4 @@ td.visible-print {
     display: none !important;
   }
 }
+

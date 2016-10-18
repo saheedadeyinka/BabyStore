@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNet.Identity.Owin;
+using System.Data.Entity;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-
 namespace BabyStore.Controllers
 {
     [Authorize(Roles = "Admin")]
@@ -46,9 +47,9 @@ namespace BabyStore.Controllers
         }
 
         // GET: UsersAdmin
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            return View();
+            return View(await UserManager.Users.ToListAsync());
         }
 
         // GET: UsersAdmin/Details/5

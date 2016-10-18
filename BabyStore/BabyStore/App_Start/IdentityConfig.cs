@@ -150,7 +150,17 @@ namespace BabyStore
                 user = new ApplicationUser
                 {
                     UserName = name,
-                    Email = name
+                    Email = name,
+                    FirstName = "Admin",
+                    LastName = "Admin",
+                    DateOfBirth = new DateTime(2015, 1, 1),
+                    Address = new Address
+                    {
+                        AddressLine1 = "1 Admin Street",
+                        Town = "Town",
+                        Country = "Country",
+                        PostCode = "PostCode"
+                    }
                 };
                 var result = userManager.Create(user, password);
                 result = userManager.SetLockoutEnabled(user.Id, false);

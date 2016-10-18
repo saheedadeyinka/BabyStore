@@ -7,13 +7,13 @@ namespace BabyStore.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class UniqueFileName : IMigrationMetadata
+    public sealed partial class update_user_fields : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(UniqueFileName));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(update_user_fields));
         
         string IMigrationMetadata.Id
         {
-            get { return "201610040018055_UniqueFileName"; }
+            get { return "201610182039120_update_user_fields"; }
         }
         
         string IMigrationMetadata.Source

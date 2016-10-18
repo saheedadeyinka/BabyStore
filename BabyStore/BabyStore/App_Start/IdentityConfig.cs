@@ -172,6 +172,15 @@ namespace BabyStore
             {
                 var result = userManager.AddToRole(user.Id, role.Name);
             }
+
+            //Create users role
+            const string userRoleName = "Users";
+            role = roleManager.FindByName(userRoleName);
+            if (role == null)
+            {
+                role = new IdentityRole(userRoleName);
+                var roleResult = roleManager.Create(role);
+            }
         }
     }
 }

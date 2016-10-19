@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Identity.Owin;
 using System.Data.Entity;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -53,9 +54,17 @@ namespace BabyStore.Controllers
         }
 
         // GET: UsersAdmin/Details/5
-        public ActionResult Details(int id)
+        public async Task<ActionResult> Details(string id)
         {
-            return View();
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var user = await UserManager.FindByIdAsync(id);
+
+            ViewBag.RoleNames = await UserManager.GetRolesAsync(user.Id);
+
+            return View(user);
         }
 
         // GET: UsersAdmin/Create

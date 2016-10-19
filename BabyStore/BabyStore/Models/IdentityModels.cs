@@ -29,9 +29,9 @@ namespace BabyStore.Models
         [DataType(DataType.Date)]
         [Display(Name = "Date Of Birth")]
         [DisplayFormat(DataFormatString = "{0:d}")]
-
-        public Address Address { get; set; }
         public DateTime DateOfBirth { get; set; }
+        public Address Address { get; set; }
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType

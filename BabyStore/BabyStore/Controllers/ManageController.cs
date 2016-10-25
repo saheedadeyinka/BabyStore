@@ -1,4 +1,5 @@
 ﻿using BabyStore.Models;
+using BabyStore.ViewModels.AdminViewModel;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -78,6 +79,37 @@ namespace BabyStore.Controllers
             //return View(model);
         }
 
+        // Get: /Manage/Edit
+        public async Task<ActionResult> Edit()
+        {
+            var userId = User.Identity.GetUserId();
+            var user = await UserManager.FindByIdAsync(userId);
+            var model = new EditUserViewModel
+            {
+                Email = user.Email,
+                DateOfBirth = user.DateOfBirth,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Address = user.Address
+            };
+
+            return View(model);
+        }
+
+        // POST: Manage/Edit
+        [HttpPost, ActionName("Edit")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditPost()
+        {
+            var userId = User.Identity.GetUserId();
+            var userToUpdate = await UserManager.FindByIdAsync(userId);
+            if (TryUpdateModel(userToUpdate, "", new string[] { "FirstName", "LastName", "DateOfBirth", "Address" }))
+            {
+                await UserManager.UpdateAsync(userToUpdate);
+                return RedirectToAction("Index");
+            }
+            return View();
+        }
         //
         // POST: /Manage/RemoveLogin
         [HttpPost]

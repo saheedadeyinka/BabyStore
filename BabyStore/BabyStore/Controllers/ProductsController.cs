@@ -12,6 +12,7 @@ using System.Web.Mvc;
 
 namespace BabyStore.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ProductsController : Controller
     {
         private StoreContext db = new StoreContext();
@@ -47,6 +48,7 @@ namespace BabyStore.Controllers
         //    return View(products.ToList());
         //}
 
+        [AllowAnonymous]
         public ActionResult Index(string category, string search, string sortBy, int? page)
         {
             //Instantiate a new viewModel
@@ -125,6 +127,7 @@ namespace BabyStore.Controllers
 
 
         // GET: Products/Details/5
+        [AllowAnonymous]
         public ActionResult Details(int? id)
         {
             if (id == null)

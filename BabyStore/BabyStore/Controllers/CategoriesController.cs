@@ -9,11 +9,13 @@ using System.Web.Mvc;
 namespace BabyStore.Controllers
 {
     [System.Runtime.InteropServices.Guid("71F257D0-0BCA-42FE-81BA-EA776998102C")]
+    [Authorize(Roles = "Admin")]
     public class CategoriesController : Controller
     {
         private StoreContext db = new StoreContext();
 
         // GET: Categories
+        [AllowAnonymous]
         public ActionResult Index()
         {
             return View(db.Categories.OrderBy(c => c.Name).ToList());

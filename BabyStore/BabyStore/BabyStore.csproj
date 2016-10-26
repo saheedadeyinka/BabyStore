@@ -424,6 +424,7 @@
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Manage\Index.cshtml" />
     <Content Include="Views\Manage\Edit.cshtml" />
+    <Content Include="Views\Basket\Index.cshtml" />
     <None Include="Views\RolesAdmin\Details.cshtml" />
     <Content Include="Views\RolesAdmin\Edit.cshtml" />
     <Content Include="Views\UsersAdmin\Index.cshtml" />
@@ -438,7 +439,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Basket\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

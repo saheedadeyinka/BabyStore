@@ -246,6 +246,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\AdminViewModel\EditUserViewModel.cs" />
     <Compile Include="ViewModels\AdminViewModel\RoleViewModel.cs" />
+    <Compile Include="ViewModels\BasketViewModel.cs" />
     <Compile Include="ViewModels\ProductIndexViewModel.cs" />
     <Compile Include="ViewModels\ProductViewModel.cs" />
   </ItemGroup>

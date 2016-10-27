@@ -83,7 +83,7 @@ namespace BabyStore.Models
                     }
                     else
                     {
-                        basketLine.Quantity += line.Quantity;
+                        basketLine.Quantity = line.Quantity;
                     }
                 }
             }

@@ -247,6 +247,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\AdminViewModel\EditUserViewModel.cs" />
     <Compile Include="ViewModels\AdminViewModel\RoleViewModel.cs" />
+    <Compile Include="ViewModels\BasketSummaryViewModel.cs" />
     <Compile Include="ViewModels\BasketViewModel.cs" />
     <Compile Include="ViewModels\ProductIndexViewModel.cs" />
     <Compile Include="ViewModels\ProductViewModel.cs" />
@@ -425,6 +426,7 @@
     <Content Include="Views\Manage\Index.cshtml" />
     <Content Include="Views\Manage\Edit.cshtml" />
     <Content Include="Views\Basket\Index.cshtml" />
+    <Content Include="Views\Basket\Summary.cshtml" />
     <None Include="Views\RolesAdmin\Details.cshtml" />
     <Content Include="Views\RolesAdmin\Edit.cshtml" />
     <Content Include="Views\UsersAdmin\Index.cshtml" />

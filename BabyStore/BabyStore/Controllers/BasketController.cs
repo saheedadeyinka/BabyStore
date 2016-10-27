@@ -46,5 +46,17 @@ namespace BabyStore.Controllers
             basket.RemoveLine(id);
             return RedirectToAction("Index");
         }
+
+        public PartialViewResult Summary()
+        {
+            Basket basket = Basket.GetBasket();
+            BasketSummaryViewModel viewModel = new BasketSummaryViewModel
+            {
+                NumberOfItems = basket.GetNumberOfItems(),
+                TotalCost = basket.GetTotalCost()
+            };
+
+            return PartialView(viewModel);
+        }
     }
 }

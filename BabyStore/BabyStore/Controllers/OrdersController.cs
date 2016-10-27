@@ -26,10 +26,31 @@ namespace BabyStore.Controllers
             private set { _userManager = value; }
         }
         // GET: Orders
-        public ActionResult Index()
+        public ActionResult Index(string orderSearch)
         {
-            return User.IsInRole("Admin") ? View(db.Orders.ToList()) :
-                                            View(db.Orders.Where(o => o.UserId == User.Identity.Name));
+            var orders = db.Orders.OrderBy(o => o.DateCreated).Include(o => o.OrderLines);
+
+            if (!User.IsInRole("Admin"))
+            {
+                orders = orders.Where(o => o.UserId == User.Identity.Name);
+            }
+
+            if (!String.IsNullOrEmpty(orderSearch))
+            {
+                orders = orders.Where(o => o.OrderId.ToString().Equals(orderSearch) ||
+                                           o.UserId.Contains(orderSearch) || o.DeliveryName.Contains(orderSearch) ||
+                                           o.DeliveryAddress.AddressLine1.Contains(orderSearch) ||
+                                           o.DeliveryAddress.AddressLine2.Contains(orderSearch) ||
+                                           o.DeliveryAddress.Town.Contains(orderSearch) ||
+                                           o.DeliveryAddress.Country.Contains(orderSearch) ||
+                                           o.DeliveryAddress.PostCode.Contains(orderSearch) ||
+                                           o.TotalPrice.ToString().Equals(orderSearch) ||
+                                           o.OrderLines.Any(ol => ol.ProductName.Contains(orderSearch)));
+
+            }
+            //return User.IsInRole("Admin") ? View(db.Orders.ToList()) :
+            //                                View(db.Orders.Where(o => o.UserId == User.Identity.Name));
+            return View(orders);
         }
 
         // GET: Orders/Details/5

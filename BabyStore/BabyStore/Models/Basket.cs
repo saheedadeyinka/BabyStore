@@ -162,5 +162,32 @@ namespace BabyStore.Models
             }
             HttpContext.Current.Session[BasketSessionKey] = userName;
         }
+
+        public decimal CreateOrderLines(int orderId)
+        {
+            decimal orderTotal = 0;
+
+            var basketLines = GetBasketLines();
+
+            foreach (var basketLine in basketLines)
+            {
+                OrderLine orderLine = new OrderLine
+                {
+                    Product = basketLine.Product,
+                    ProductId = basketLine.ProductId,
+                    ProductName = basketLine.Product.Name,
+                    Quantity = basketLine.Quantity,
+                    UnitPrice = basketLine.Product.Price,
+                    OrderId = orderId
+                };
+
+                orderTotal += (basketLine.Quantity * basketLine.Product.Price);
+                db.OrderLines.Add(orderLine);
+            }
+
+            db.SaveChanges();
+            EmptyBasket();
+            return orderTotal;
+        }
     }
 }

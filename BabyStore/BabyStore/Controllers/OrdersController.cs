@@ -1,8 +1,13 @@
 ﻿using BabyStore.DAL;
 using BabyStore.Models;
+using Microsoft.AspNet.Identity.Owin;
+using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 
 namespace BabyStore.Controllers
@@ -12,6 +17,14 @@ namespace BabyStore.Controllers
     {
         private StoreContext db = new StoreContext();
 
+
+        private ApplicationUserManager _userManager;
+
+        public ApplicationUserManager UserManager
+        {
+            get { return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>(); }
+            private set { _userManager = value; }
+        }
         // GET: Orders
         public ActionResult Index()
         {
@@ -42,10 +55,30 @@ namespace BabyStore.Controllers
             }
         }
 
-        // GET: Orders/Create
-        public ActionResult Create()
+        // GET: Orders/Review
+        public async Task<ActionResult> Review()
         {
-            return View();
+            Basket basket = Basket.GetBasket();
+            Order order = new Order { UserId = User.Identity.Name };
+
+            ApplicationUser user = await UserManager.FindByNameAsync(order.UserId);
+            order.DeliveryName = user.FirstName + " " + user.LastName;
+            order.DeliveryAddress = user.Address;
+            order.OrderLines = new List<OrderLine>();
+            foreach (var basketLine in basket.GetBasketLines())
+            {
+                OrderLine line = new OrderLine
+                {
+                    Product = basketLine.Product,
+                    ProductId = basketLine.ProductId,
+                    ProductName = basketLine.Product.Name,
+                    Quantity = basketLine.Quantity,
+                    UnitPrice = basketLine.Product.Price
+                };
+                order.OrderLines.Add(line);
+            }
+            order.TotalPrice = basket.GetTotalCost();
+            return View(order);
         }
 
         // POST: Orders/Create
@@ -53,16 +86,22 @@ namespace BabyStore.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "OrderId,UserId,DeliveryName,DeliveryAddress,TotalPrice,DateCreated")] Order order)
+        public ActionResult Create([Bind(Include = "UserId,DeliveryName,DeliveryAddress")] Order order)
         {
             if (ModelState.IsValid)
             {
+                order.DateCreated = DateTime.Now;
                 db.Orders.Add(order);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                //add the orderlines to the database after creating the order
+                Basket basket = Basket.GetBasket();
+                order.TotalPrice = basket.CreateOrderLines(order.OrderId);
+                db.SaveChanges();
+                return RedirectToAction("Details", new { id = order.OrderId });
             }
 
-            return View(order);
+            return RedirectToAction("Review");
         }
 
         // GET: Orders/Edit/5

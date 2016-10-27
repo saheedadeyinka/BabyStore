@@ -231,6 +231,10 @@
     <Compile Include="Migrations\201610260133535_AddBasketLine.Designer.cs">
       <DependentUpon>201610260133535_AddBasketLine.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201610271231224_AddOrders.cs" />
+    <Compile Include="Migrations\201610271231224_AddOrders.Designer.cs">
+      <DependentUpon>201610271231224_AddOrders.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\StoreConfiguration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -240,6 +244,8 @@
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Order.cs" />
+    <Compile Include="Models\OrderLine.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\ProductImage.cs" />
     <Compile Include="Models\ProductImageMapping.cs" />
@@ -459,6 +465,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201610260133535_AddBasketLine.resx">
       <DependentUpon>201610260133535_AddBasketLine.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610271231224_AddOrders.resx">
+      <DependentUpon>201610271231224_AddOrders.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

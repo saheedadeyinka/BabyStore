@@ -1,4 +1,5 @@
 using BabyStore.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -419,6 +420,101 @@ namespace BabyStore.Migrations.StoreConfiguration
             };
             imageMappings.ForEach(c => context.ProductImageMappings.AddOrUpdate(im => im.ProductImageId, c));
             context.SaveChanges();
+
+            var orders = new List<Order>
+            {
+                new Order
+                {
+                    DeliveryAddress = new Address { AddressLine1="1 Some Street", Town="Town1",
+                                                    Country ="County", PostCode="PostCode" },
+                    TotalPrice =4.99M,
+                    UserId="admin@example.com", DateCreated=new DateTime(2014, 1, 1) ,
+                    DeliveryName="Admin"
+                },
+                new Order
+                {
+                    DeliveryAddress = new Address { AddressLine1="1 Some Street", Town="Town1",
+                                                    Country="County", PostCode="PostCode" },
+                    TotalPrice =2.99M,
+                    UserId="admin@example.com", DateCreated=new DateTime(2014, 1, 2) ,
+                    DeliveryName="Admin"
+                },
+                new Order
+                {
+                    DeliveryAddress = new Address { AddressLine1="1 Some Street", Town="Town1",
+                                                    Country="County", PostCode="PostCode" },
+                    TotalPrice =1.99M,
+                    UserId="admin@example.com", DateCreated=new DateTime(2014, 1, 3) ,
+                    DeliveryName="Admin"
+                },
+                new Order
+                {
+                    DeliveryAddress = new Address { AddressLine1="1 Some Street", Town="Town1",
+                                                    Country="County", PostCode="PostCode" },
+                    TotalPrice =24.99M,
+                    UserId="admin@example.com", DateCreated=new DateTime(2014, 1, 4) ,
+                    DeliveryName="Admin"
+                },
+                new Order
+                {
+                    DeliveryAddress = new Address { AddressLine1="1 Some Street", Town="Town1",
+                                                    Country="County", PostCode="PostCode" },
+                    TotalPrice =8.99M,
+                    UserId="admin@example.com", DateCreated=new DateTime(2014, 1, 5) ,
+                    DeliveryName="Admin"
+                }
+            };
+
+            orders.ForEach(c => context.Orders.AddOrUpdate(o => o.DateCreated, c));
+            context.SaveChanges();
+
+            var orderLines = new List<OrderLine>
+            {
+                new OrderLine
+                {
+                    OrderId = 1,
+                    ProductId = products.Single( c=> c.Name == "Sleep Suit").Id,
+                    ProductName ="Sleep Suit",
+                    Quantity =1,
+                    UnitPrice =products.Single( c=> c.Name == "Sleep Suit").Price
+                },
+                new OrderLine
+                {
+                    OrderId = 2,
+                    ProductId = products.Single( c=> c.Name == "Vest").Id,
+                    ProductName="Vest",
+                    Quantity =1,
+                    UnitPrice =products.Single( c=> c.Name =="Vest").Price
+                },
+                new OrderLine
+                {
+                    OrderId = 3,
+                    ProductId = products.Single( c=> c.Name == "Orange and Yellow Lion").Id,
+                    ProductName ="Orange and Yellow Lion",
+                    Quantity =1,
+                    UnitPrice =products.Single( c=> c.Name == "Orange and Yellow Lion").Price
+                },
+                new OrderLine
+                {
+                    OrderId = 4,
+                    ProductId = products.Single( c=> c.Name == "3 Pack of Bottles").Id,
+                    ProductName ="3 Pack of Bottles",
+                    Quantity =1,
+                    UnitPrice =products.Single( c=> c.Name == "3 Pack of Bottles").Price
+                },
+                new OrderLine
+                {
+                    OrderId = 5,
+                    ProductId = products.Single( c=> c.Name == "3 Pack of Bibs").Id,
+                    ProductName ="3 Pack of Bibs",
+                    Quantity =1,
+                    UnitPrice =products.Single( c=> c.Name == "3 Pack of Bibs").Price
+                }
+            };
+
+            orderLines.ForEach(c => context.OrderLines.AddOrUpdate(ol => ol.OrderId, c));
+            context.SaveChanges();
+
         }
     }
 }

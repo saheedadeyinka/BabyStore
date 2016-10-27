@@ -26,7 +26,7 @@ namespace BabyStore.Controllers
             private set { _userManager = value; }
         }
         // GET: Orders
-        public ActionResult Index(string orderSearch)
+        public ActionResult Index(string orderSearch, string startDate, string endDate)
         {
             var orders = db.Orders.OrderBy(o => o.DateCreated).Include(o => o.OrderLines);
 
@@ -47,6 +47,18 @@ namespace BabyStore.Controllers
                                            o.TotalPrice.ToString().Equals(orderSearch) ||
                                            o.OrderLines.Any(ol => ol.ProductName.Contains(orderSearch)));
 
+            }
+
+            DateTime parsedStartDate;
+            if (DateTime.TryParse(startDate, out parsedStartDate))
+            {
+                orders = orders.Where(o => o.DateCreated >= parsedStartDate);
+            }
+
+            DateTime parsedEndDate;
+            if (DateTime.TryParse(endDate, out parsedEndDate))
+            {
+                orders = orders.Where(o => o.DateCreated <= parsedEndDate);
             }
             //return User.IsInRole("Admin") ? View(db.Orders.ToList()) :
             //                                View(db.Orders.Where(o => o.UserId == User.Identity.Name));

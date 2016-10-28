@@ -26,7 +26,7 @@ namespace BabyStore.Controllers
             private set { _userManager = value; }
         }
         // GET: Orders
-        public ActionResult Index(string orderSearch, string startDate, string endDate)
+        public ActionResult Index(string orderSearch, string startDate, string endDate, string orderSortOrder)
         {
             var orders = db.Orders.OrderBy(o => o.DateCreated).Include(o => o.OrderLines);
 
@@ -62,6 +62,34 @@ namespace BabyStore.Controllers
             }
             //return User.IsInRole("Admin") ? View(db.Orders.ToList()) :
             //                                View(db.Orders.Where(o => o.UserId == User.Identity.Name));
+            ViewBag.DateSort = String.IsNullOrEmpty(orderSortOrder) ? "date" : "";
+            ViewBag.UserSort = orderSortOrder == "user" ? "user_desc" : "user";
+            ViewBag.PriceSort = orderSortOrder == "price" ? "price_desc" : "price";
+            ViewBag.CurrentOrderSearch = orderSearch;
+            ViewBag.StartDate = startDate;
+            ViewBag.EndDate = endDate;
+
+            switch (orderSortOrder)
+            {
+                case "user":
+                    orders = orders.OrderBy(o => o.UserId);
+                    break;
+                case "user_desc":
+                    orders = orders.OrderByDescending(o => o.UserId);
+                    break;
+                case "price":
+                    orders = orders.OrderBy(o => o.TotalPrice);
+                    break;
+                case "price_desc":
+                    orders = orders.OrderByDescending(o => o.TotalPrice);
+                    break;
+                case "date":
+                    orders = orders.OrderBy(o => o.DateCreated);
+                    break;
+                default:
+                    orders = orders.OrderByDescending(o => o.DateCreated);
+                    break;
+            }
             return View(orders);
         }
 

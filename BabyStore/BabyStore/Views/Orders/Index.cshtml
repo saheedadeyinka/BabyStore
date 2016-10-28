@@ -30,7 +30,13 @@
             @Html.DisplayNameFor(model => model.OrderId)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.UserId)
+            @Html.ActionLink("User", "Index", new
+       {
+           orderSortOrder = ViewBag.UserSort,
+           orderSearch = ViewBag.CurrentOrderSearch,
+           startDate = ViewBag.StartDate,
+           endDate = ViewBag.EndDate
+       })
         </th>
         <th>
             @Html.DisplayNameFor(model => model.DeliveryName)
@@ -39,10 +45,22 @@
             @Html.DisplayNameFor(model => model.DeliveryAddress)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TotalPrice)
+            @Html.ActionLink("Total Price", "Index", new
+       {
+           orderSortOrder = ViewBag.PriceSort,
+           orderSearch = ViewBag.CurrentOrderSearch,
+           startDate = ViewBag.StartDate,
+           endDate = ViewBag.EndDate
+       })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DateCreated)
+            @Html.ActionLink("Time of Order", "Index", new
+       {
+           orderSortOrder = ViewBag.DateSort,
+           orderSearch = ViewBag.CurrentOrderSearch,
+           startDate = ViewBag.StartDate,
+           endDate = ViewBag.EndDate
+       })
         </th>
         <th></th>
     </tr>

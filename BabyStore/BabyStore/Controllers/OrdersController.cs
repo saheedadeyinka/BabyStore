@@ -1,5 +1,6 @@
 ﻿using BabyStore.DAL;
 using BabyStore.Models;
+using BabyStore.Utilities;
 using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
@@ -26,7 +27,11 @@ namespace BabyStore.Controllers
             private set { _userManager = value; }
         }
         // GET: Orders
-        public ActionResult Index(string orderSearch, string startDate, string endDate, string orderSortOrder)
+        public async Task<ActionResult> Index(string orderSearch,
+                                                string startDate,
+                                                string endDate,
+                                                string orderSortOrder,
+                                                int? page)
         {
             var orders = db.Orders.OrderBy(o => o.DateCreated).Include(o => o.OrderLines);
 
@@ -90,7 +95,10 @@ namespace BabyStore.Controllers
                     orders = orders.OrderByDescending(o => o.DateCreated);
                     break;
             }
-            return View(orders);
+
+            int currentPage = (page ?? 1);
+            var currentPageOfOrders = await orders.ReturnPages(currentPage, Constants.PageItems);
+            return View(currentPageOfOrders);
         }
 
         // GET: Orders/Details/5

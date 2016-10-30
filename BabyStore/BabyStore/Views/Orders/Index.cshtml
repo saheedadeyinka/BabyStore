@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<BabyStore.Models.Order>
+@using BabyStore.HtmlHelpers;
 
 @{
     ViewBag.Title = "Orders";
@@ -31,12 +32,12 @@
         </th>
         <th>
             @Html.ActionLink("User", "Index", new
-       {
-           orderSortOrder = ViewBag.UserSort,
-           orderSearch = ViewBag.CurrentOrderSearch,
-           startDate = ViewBag.StartDate,
-           endDate = ViewBag.EndDate
-       })
+            {
+                orderSortOrder = ViewBag.UserSort,
+                orderSearch = ViewBag.CurrentOrderSearch,
+                startDate = ViewBag.StartDate,
+                endDate = ViewBag.EndDate
+            })
         </th>
         <th>
             @Html.DisplayNameFor(model => model.DeliveryName)
@@ -46,21 +47,21 @@
         </th>
         <th>
             @Html.ActionLink("Total Price", "Index", new
-       {
-           orderSortOrder = ViewBag.PriceSort,
-           orderSearch = ViewBag.CurrentOrderSearch,
-           startDate = ViewBag.StartDate,
-           endDate = ViewBag.EndDate
-       })
+            {
+                orderSortOrder = ViewBag.PriceSort,
+                orderSearch = ViewBag.CurrentOrderSearch,
+                startDate = ViewBag.StartDate,
+                endDate = ViewBag.EndDate
+            })
         </th>
         <th>
             @Html.ActionLink("Time of Order", "Index", new
-       {
-           orderSortOrder = ViewBag.DateSort,
-           orderSearch = ViewBag.CurrentOrderSearch,
-           startDate = ViewBag.StartDate,
-           endDate = ViewBag.EndDate
-       })
+            {
+                orderSortOrder = ViewBag.DateSort,
+                orderSearch = ViewBag.CurrentOrderSearch,
+                startDate = ViewBag.StartDate,
+                endDate = ViewBag.EndDate
+            })
         </th>
         <th></th>
     </tr>
@@ -87,9 +88,12 @@
                 @Html.DisplayFor(modelItem => item.DateCreated)
             </td>
             <td>
-                @Html.ActionLink("Details", "Details", new { id = item.OrderId })
+                @Html.ActionLink("Details", "Details", new {id = item.OrderId})
             </td>
         </tr>
     }
 
 </table>
+<div class="paging small-bold-text">
+    @Html.GeneratePageLinks((int)ViewBag.CurrentPage, (int)ViewBag.TotalPages, page => Url.Action("Index", new { page, orderSortOrder = ViewBag.CurrentSortOrder, orderSearch = ViewBag.CurrentOrderSearch, startDate = ViewBag.StartDate, endDate = ViewBag.EndDate}))
+</div>

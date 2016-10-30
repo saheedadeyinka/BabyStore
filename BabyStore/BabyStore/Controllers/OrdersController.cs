@@ -97,7 +97,10 @@ namespace BabyStore.Controllers
             }
 
             int currentPage = (page ?? 1);
+            ViewBag.CurrentPage = currentPage;
+            ViewBag.TotalPages = (int)Math.Ceiling((decimal)orders.Count() / Constants.PageItems);
             var currentPageOfOrders = await orders.ReturnPages(currentPage, Constants.PageItems);
+            ViewBag.CurrentSortOrder = orderSortOrder;
             return View(currentPageOfOrders);
         }
 

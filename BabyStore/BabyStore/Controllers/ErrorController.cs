@@ -9,5 +9,17 @@ namespace BabyStore.Controllers
         {
             return View();
         }
+
+        public ActionResult PageNotFound()
+        {
+            Response.StatusCode = 404;
+            return View();
+        }
+
+        public ActionResult InternalServerError()
+        {
+            Response.StatusCode = 505;
+            return View();
+        }
     }
 }
